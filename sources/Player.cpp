@@ -23,7 +23,7 @@ namespace pandemic {
         }
         this->current_city = c;
         this->cards.erase(c);
-        if(this->role() == "Medic"){
+        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city 
             if (board.cures[board.cities[this->current_city].color]) {board[c] = 0;}
                 return *this;
         }
@@ -54,7 +54,7 @@ namespace pandemic {
         }
         this->cards.erase(this->current_city);
         this->current_city= c;
-        if(this->role() == "Medic"){
+        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city 
             if (board.cures[board.cities[this->current_city].color]) {board[c] = 0;}
                 return *this;
         }
@@ -69,7 +69,7 @@ namespace pandemic {
             throw invalid_argument("the city " +board.cities[this->current_city].name + " and the city "+board.cities[c].name +" are not connected by drive" );
         }
         this->current_city = c;
-        if(this->role() == "Medic"){
+        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city 
             if (board.cures[board.cities[this->current_city].color]) {board[c] = 0;}
                 return *this;
         }
@@ -85,7 +85,7 @@ namespace pandemic {
             throw invalid_argument("you cant fly shuttle if there is no research station in "+board.cities[this->current_city].name+" and in " +board.cities[c].name);
         }
         this->current_city= c;
-        if(this->role() == "Medic"){
+        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city 
             if (board.cures[board.cities[this->current_city].color]) {board[c] = 0;}
                 return *this;
         }

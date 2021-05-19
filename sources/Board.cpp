@@ -73,9 +73,9 @@ namespace pandemic {
             disease_level = {};
         }
 
-    bool Board::is_clean() {
+    bool Board::is_clean() { 
         for (auto &p : cities) {
-                if (disease_level.count(p.first)!=0&&disease_level[p.first]>0) {return false;}
+                if (disease_level.count(p.first)!=0&&disease_level[p.first]>0) {return false;} // check the level of disease in every city
         }
         return true;
     }
@@ -84,13 +84,12 @@ namespace pandemic {
             return this->disease_level[city];
     }
 
-     void Board::remove_cures() {
+     void Board::remove_cures() { // delete all true in cures
          for (auto &cure : cures) {
              cure.second = false;
          }    
     }
 
-    /* output operator for Board object */
     ostream& operator<<(ostream& os, Board& b) {
 
     os << "-------------------- BOARD --------------------" << endl;
