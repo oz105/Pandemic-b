@@ -30,6 +30,7 @@ namespace pandemic {
                 }
             }
             board.cures[color] = true;
+            board.cure_counter++;
         }
         return *this;
     }

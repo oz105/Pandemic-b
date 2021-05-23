@@ -11,7 +11,9 @@ using namespace std;
 namespace pandemic {
 
         Board::Board() {
-            
+
+            //init the city with the struct of the city
+
             cities = {
                 {City::Algiers,(City_Node){"Algiers",Color::Black,{City::Madrid, City::Paris, City::Istanbul, City::Cairo}}},
                 {City::Atlanta,(City_Node){"Atlanta",Color::Blue,{City::Chicago, City::Miami, City::Washington}}},
@@ -71,11 +73,70 @@ namespace pandemic {
                 
             };
             disease_level = {};
+
+            color_to_string = {
+                {Color::Blue,"Blue"},
+                {Color::Yellow , "Yellow"},
+                {Color::Black,"Black"},
+                {Color::Red , "Red"}
+            };
+
+            std::unordered_map<City, std::string> city_to_string = {
+                {City::Algiers,"Algiers"},
+                {City::Atlanta,"Atlanta"},
+                {City::Baghdad,"Baghdad"},
+                {City::Bangkok,"Bangkok"},
+                {City::Beijing,"Beijing"},
+                {City::Bogota,"Bogota"},
+                {City::BuenosAires,"BuenosAires"},
+                {City::Cairo,"Cairo"},
+                {City::Chennai,"Chennai"},
+                {City::Chicago,"Chicago"},
+                {City::Delhi,"Delhi"},
+                {City::Essen,"Essen"},
+                {City::HoChiMinhCity,"HoChiMinhCity"},
+                {City::HongKong,"HongKong"},
+                {City::Istanbul,"Istanbul"},
+                {City::Jakarta,"Jakarta"},
+                {City::Johannesburg,"Johannesburg"},
+                {City::Karachi,"Karachi"},
+                {City::Khartoum,"Khartoum"},
+                {City::Kinshasa,"Kinshasa"},
+                {City::Kolkata,"Kolkata"},
+                {City::Lagos,"Lagos"},
+                {City::Lima,"Lima"},
+                {City::London,"London"},
+                {City::LosAngeles,"LosAngeles"},
+                {City::Madrid,"Madrid"},
+                {City::Manila,"Manila"},
+                {City::MexicoCity,"MexicoCity"},
+                {City::Miami,"Miami"},
+                {City::Milan,"Milan"},
+                {City::Montreal,"Montreal"},
+                {City::Moscow,"Moscow"},
+                {City::Mumbai,"Mumbai"},
+                {City::NewYork,"NewYork"},
+                {City::Osaka,"Osaka"},
+                {City::Paris,"Paris"},
+                {City::Riyadh,"Riyadh"},
+                {City::SanFrancisco,"SanFrancisco"},
+                {City::Santiago,"Santiago"},
+                {City::SaoPaulo,"SaoPaulo"},
+                {City::Seoul,"Seoul"},
+                {City::Shanghai,"Shanghai"},
+                {City::StPetersburg,"StPetersburg"},
+                {City::Sydney,"Sydney"},
+                {City::Taipei,"Taipei"},
+                {City::Tehran,"Tehran"},
+                {City::Tokyo,"Tokyo"},
+                {City::Washington,"Washington"}
+            };
+    
         }
 
-    bool Board::is_clean() { 
+    bool Board::is_clean() { // checi if the board is clean from any diseases
         for (auto &p : cities) {
-                if (disease_level.count(p.first)!=0&&disease_level[p.first]>0) {return false;} // check the level of disease in every city
+                if (disease_level.count(p.first)!=0 && disease_level[p.first]>0) {return false;} // check the level of disease in every city
         }
         return true;
     }
@@ -90,13 +151,14 @@ namespace pandemic {
          }    
     }
 
-    ostream& operator<<(ostream& os, Board& b) {
+    ostream& operator<<(ostream& os, Board& b) { //cout of board
 
     os << "-------------------- BOARD --------------------" << endl;
 
-    os << "Research stations: " << endl;
+    os << "Research stations:" << endl;
     os << "Num of Research stations: " << b.stations_counter << endl;
-    os << "cities with Research station :" << endl ;
+    os << endl ;
+    os << "Cities with Research station :" << endl ;
     for (const auto &c : b.cities) {
         if(c.second.station){
             os << c.second.name << endl ;
@@ -105,10 +167,24 @@ namespace pandemic {
 
     os << endl << "Level of diseases: " << endl ;
     for (const auto &c : b.cities) {
-        os << "City: " << c.second.name << " = " << b[c.first] << endl ;
+        if(b[c.first] > 0 ){
+            os << "City: " << c.second.name << " ,level of diseases: " << b[c.first] << endl ;
+        }
     }
 
+    os << endl ;
+
+    os << "Cures:" <<endl;
     os << "Num Of Cures that discover: " << b.cure_counter << endl ;
+    os << endl ;
+    os << "The color that discoverd is: " << endl ;
+
+    for (const auto &cure : b.cures) {
+        if(cure.second){
+            Color color = cure.first ;
+            os << b.color_to_string[color] << " is discovered" << endl;
+        }
+    }
 
     os << "------------------ END BOARD ------------------" << endl;
     return os;

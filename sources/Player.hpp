@@ -18,6 +18,10 @@ namespace pandemic {
         Player(Board& b, City c, std::string r): board(b), current_city(c), m_role(r) { }
         ~Player() {}
 
+        void remove_cards(){this->cards.clear();}
+
+        void show_cards();
+
         Player& drive(City c);
         Player& fly_charter(City c);
         Player& fly_shuttle(City c);

@@ -2,19 +2,26 @@
 #include <iostream>
 #include <sstream>
 
+
+
 using namespace std;
 
 const int check_five_color = 5 ;
 
 namespace pandemic {
 
+    void Player::show_cards(){
+        for (auto city : this->cards) {
+            cout << board.city_to_string[city] << endl; 
+        }        
+    }
+
     Player& Player::take_card(City c) {
         this->cards.insert(c);
         return *this;
     }
-   
 
-    Player& Player::fly_direct(City c) {
+    Player& Player::fly_direct(City c) { // fly dircet to city by throw the card of the city
         if (this->current_city==c) {
             throw invalid_argument("you can not fly direct to your current city");
         }
@@ -23,7 +30,7 @@ namespace pandemic {
         }
         this->current_city = c;
         this->cards.erase(c);
-        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city 
+        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city if there is cure 
             if (board.cures[board.cities[this->current_city].color]) {board[c] = 0;}
                 return *this;
         }
@@ -54,7 +61,7 @@ namespace pandemic {
         }
         this->cards.erase(this->current_city);
         this->current_city= c;
-        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city 
+        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city if there is cure 
             if (board.cures[board.cities[this->current_city].color]) {board[c] = 0;}
                 return *this;
         }
@@ -69,7 +76,7 @@ namespace pandemic {
             throw invalid_argument("the city " +board.cities[this->current_city].name + " and the city "+board.cities[c].name +" are not connected by drive" );
         }
         this->current_city = c;
-        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city 
+        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city if there is cure 
             if (board.cures[board.cities[this->current_city].color]) {board[c] = 0;}
                 return *this;
         }
@@ -85,14 +92,14 @@ namespace pandemic {
             throw invalid_argument("you cant fly shuttle if there is no research station in "+board.cities[this->current_city].name+" and in " +board.cities[c].name);
         }
         this->current_city= c;
-        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city 
+        if(this->role() == "Medic"){ // check if medic to delete the diesease level in the city if there is cure 
             if (board.cures[board.cities[this->current_city].color]) {board[c] = 0;}
                 return *this;
         }
         return *this;
     }
 
-    Player& Player::build() {
+    Player& Player::build() { //build station at the city y use card
         if (board.cities[this->current_city].station) {
             return *this;
         }
@@ -134,6 +141,7 @@ namespace pandemic {
             }
         }
         board.cures[color] = true;
+        board.cure_counter ++ ;
         return *this;
     }
 

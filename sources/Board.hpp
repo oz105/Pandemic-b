@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include <unordered_map>
 #include <iostream>
 #include <set>
 #include "City.hpp"
@@ -21,13 +21,17 @@ namespace pandemic {
 
         int cure_counter = 0;
         int stations_counter = 0;
-       
-        std::map<City,City_Node> cities; // map with city as key and the information about it as a value
-        
-        std::map<City,int> disease_level; // hold the level of disease at the city , city as key level as value
 
-        std::map<Color,bool> cures; // hold if for disease color already found cure
-       
+        std::unordered_map<City,City_Node> cities; // map with city as key and the information about it as a value
+
+        std::unordered_map<City,int> disease_level; // hold the level of disease at the city , city as key level as value
+
+        std::unordered_map<Color,bool> cures; // hold if for disease color already found cure
+
+        std::unordered_map<City, std::string> city_to_string; 
+
+        std::unordered_map<Color,std::string> color_to_string ;
+
         Board();
         ~Board() { }
 
