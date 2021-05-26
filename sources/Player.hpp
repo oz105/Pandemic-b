@@ -15,7 +15,7 @@ namespace pandemic {
         City current_city;
         std::set<City> cards = {};
     public:
-        Player(Board& b, City c, std::string r): board(b), current_city(c), m_role(r) { }
+        Player(Board& b, City c, std::string r): board(b), current_city(c), m_role(r) { } // string should be const and & 
         ~Player() {}
 
         void remove_cards(){this->cards.clear();}

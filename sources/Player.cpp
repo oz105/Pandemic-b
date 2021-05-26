@@ -3,7 +3,6 @@
 #include <sstream>
 
 
-
 using namespace std;
 
 const int check_five_color = 5 ;
@@ -12,7 +11,7 @@ namespace pandemic {
 
     void Player::show_cards(){
         for (auto city : this->cards) {
-            cout << board.city_to_string[city] << endl; 
+            cout << Board::get_city(city) << endl;
         }        
     }
 
@@ -37,14 +36,14 @@ namespace pandemic {
         return *this;
     }
 
-    Player& Player::treat(City c) {
+    Player& Player::treat(City c) { // use treat on the current city (-1 if there is no cure)
         if(board[this->current_city] == 0){
             throw invalid_argument("the disease level at "+board.cities[c].name+"is already 0");
         }
         if (this->current_city !=c ) {
             throw invalid_argument("you can use treat only in your current city");
         }
-        if (board.cures[board.cities[this->current_city].color]) {
+        if (board.cures[board.cities[this->current_city].color]) { // check if there is cure for this color
             board[this->current_city] = 0;
             return *this;
         }
@@ -52,7 +51,7 @@ namespace pandemic {
         return *this;
     }
 
-    Player& Player::fly_charter(City c) {
+    Player& Player::fly_charter(City c) { //use current city card to fly 
         if (this->current_city==c) {
             throw invalid_argument("you can not fly charter to your current city");
         }
@@ -68,11 +67,11 @@ namespace pandemic {
         return *this;
     }
 
-    Player& Player::drive(City c) {
+    Player& Player::drive(City c) { // dirve between connected city 
         if (this->current_city==c) {
             throw invalid_argument("you cant drive to your current city");
         }
-        if(board.cities[this->current_city].connections.count(c)==0){
+        if(board.cities[this->current_city].connections.count(c)==0){ // check if there is connection
             throw invalid_argument("the city " +board.cities[this->current_city].name + " and the city "+board.cities[c].name +" are not connected by drive" );
         }
         this->current_city = c;
@@ -84,7 +83,7 @@ namespace pandemic {
 
     }
 
-    Player& Player::fly_shuttle(City c) {
+    Player& Player::fly_shuttle(City c) { // need to be 2 station to use that 
         if (this->current_city==c) {
             throw invalid_argument("you can not fly shuttle to your current city");
         }
@@ -120,12 +119,12 @@ namespace pandemic {
             return *this;
         }
         int check = 0;
-        for (auto city : this->cards) {
-            if (board.cities[city].color==color) {
+        for (auto city : this->cards) { 
+            if (board.cities[city].color==color) { //count the num of cards in this color
                 check++;
             }
         }
-        if (check<check_five_color) {
+        if (check<check_five_color) { // check if there is five and more to discover
             throw invalid_argument("(player) dont have enough cards");
             return *this;
         }
@@ -136,12 +135,12 @@ namespace pandemic {
                 city = this->cards.erase(city);
                 count++;
             } else {++city;}
-            if (count>=check_five_color) {
+            if (count>=check_five_color) { // when he got to 5 break
                 break;
             }
         }
-        board.cures[color] = true;
-        board.cure_counter ++ ;
+        board.cures[color] = true; // find the cure color
+        board.cure_counter ++ ; // add to the cures counter
         return *this;
     }
 

@@ -24,6 +24,7 @@ int main (){
 
     // make level disease in the cities
     Board board ;
+
     board[City::Miami] = 3; // yellow color
     board[City::SaoPaulo] = 3; // yellow color
     board[City::NewYork] = 2; // blue color
@@ -36,6 +37,7 @@ int main (){
 
     cout << endl;
     cout << "Starting Game" << endl ;
+    cout << endl;
     cout << board << endl ;
 
 
@@ -44,7 +46,6 @@ int main (){
     opertion_expert.take_card(City::Algiers);
     opertion_expert.take_card(City::Cairo);
     opertion_expert.take_card(City::SanFrancisco);
-    opertion_expert.show_cards();
 
     GeneSplicer gene_splicer {board,City::Miami}; // can discover cure with 5 diffrent color
     gene_splicer.take_card(City::Lagos);//yellow
@@ -66,8 +67,6 @@ int main (){
     virologist.take_card(City::Tehran);
     virologist.take_card(City::Delhi);
     
-
-
 
     FieldDoctor field_doctor {board,City::Beijing}; // can use treat one neibors cities
     field_doctor.take_card(City::Tehran);
@@ -109,7 +108,7 @@ int main (){
     medic.fly_charter(City::Madrid);
     medic.treat(City::Madrid);
 
-    cout << "******* after medic use treat in Madrid (blue city) should cure all  *******" << endl ;
+    cout << "******* after medic fly charter to Madrid and use treat there (blue city) should cure all  *******" << endl ;
     cout << endl ;
 
     cout << board << endl ;
@@ -117,7 +116,7 @@ int main (){
 
 
 
-    field_doctor.treat(City::Shanghai) ;
+    field_doctor.treat(City::Shanghai) ; //  his current City is Beijing
 
     cout << "******* after field doctor use treat in Shanghai should be now 3  *******" << endl ;
     cout << endl ;
